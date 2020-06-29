@@ -220,7 +220,7 @@ function VirtualFS(db) {
                     await db.save('files_cache', file2);
                 } else {
                     let response = await net.fetch(url, {method: 'DELETE'});
-                    if (!response.ok) {
+                    if (!response.ok && response.status !== 404) {
                         let err = (await response.text()).trim();
                         throw new Error(err);
                     }
