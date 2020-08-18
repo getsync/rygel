@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Échelle de cotation de catatonie de Bush-Francis", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`<p>Ne côter que les items bien définis. En cas de doute sur la présence d'un item, côter 0.</p>`)
 

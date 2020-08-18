@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("PCLS", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
     <p>Voici une liste de problèmes que les gens éprouvent parfois suite à une expérience vraiment stressante.

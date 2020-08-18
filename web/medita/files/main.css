@@ -10,12 +10,12 @@ h1 {
     max-width: 400px;
     margin: 10px auto 0 auto;
     padding: 8px;
-    background: #3b7ad1;
+    background: #e66d1d;
     border: none;
     color: white;
     font-size: 1.1em;
 }
-.md_button:not(:disabled):hover { background: #376cb5; }
+.md_button:not(:disabled):hover { background: #fe7216; }
 .md_button:disabled {
     background: #999;
     color: #555;
@@ -31,3 +31,20 @@ h1 {
     margin: 0;
     padding: 0;
 }
+
+.md_table {
+    width: 90%;
+    margin: 0 auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+.md_table th {
+    padding: 4px;
+    text-align: left;
+}
+.md_table td {
+    padding: 4px;
+    border: 1px solid #ddd;
+}
+.md_table tbody tr:nth-child(2n + 1) { background: #f2f2f2; }
+.md_table tbody tr:nth-child(2n) { background: #f8f8f8; }

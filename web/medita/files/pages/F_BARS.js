@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Barnes Akathisia Rating Scale (BARS)", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
     <p>Patient should be observed while they are seated, and then standing while engaged in neutral

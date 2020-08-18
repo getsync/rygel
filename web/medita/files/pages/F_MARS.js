@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Echelle de mesure de l'observance médicamenteuse (MARS)", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
     <p>Ce questionnaire consiste à mieux comprendre les difficultés liées à la prise de médicaments.

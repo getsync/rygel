@@ -1,66 +1,67 @@
-// Echelles
+// Échelles
 
 shared.echelles = [
+    {category: "Général", name: "Observation", form: "F_OBSERVATION"},
 
-    {category: "Général", name: "Observation", form: "F_OBSERVATION", keys: ["score"]},
-
-    {category: "AUTO-QUESTIONNAIRES", name: "Inventaire de dépression de Beck (BDI)", form: "F_BDI", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Échelle de dépression QIDS", form: "F_QIDS", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Questionnaire de trouble de l'humeur (MDQ)", form: "F_MDQ", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Auto-questionnaire de Angst", form: "F_ANGST", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Inventaire de Beck pour l'anxiété", form: "F_IBA", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Chilhood Trauma Questionnaire (CTQ)", form: "F_CTQ",
-        keys: ["score", "physicalAbuse", "emotionalNeglect", "physicalNeglect",
-               "sexualAbuse", "emotionalAbuse"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Echelle de mesure de l'observance médicamenteuse (MARS)", form: "F_MARS", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Questionnaire de fonctionnement social", form: "F_QFS", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "PQD4", form: "F_PDQ4", keys: ["score"]},
-    {category: "AUTO-QUESTIONNAIRES", name: "Symptômes psychotiques", form: "F_symptomespsychotiquesMINI", keys: ["score"]},
+    {category: "AUTO-QUESTIONNAIRES", name: "Inventaire de dépression de Beck (BDI)", form: "F_BDI"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Échelle de dépression QIDS", form: "F_QIDS"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Questionnaire de trouble de l'humeur (MDQ)", form: "F_MDQ"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Auto-questionnaire de Angst", form: "F_ANGST"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Inventaire de Beck pour l'anxiété", form: "F_IBA"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Chilhood Trauma Questionnaire (CTQ)", form: "F_CTQ"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Echelle de mesure de l'observance médicamenteuse (MARS)", form: "F_MARS"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Questionnaire de fonctionnement social", form: "F_QFS"},
+    {category: "AUTO-QUESTIONNAIRES", name: "PQD4", form: "F_PDQ4"},
+    {category: "AUTO-QUESTIONNAIRES", name: "Symptômes psychotiques", form: "F_symptomespsychotiquesMINI"},
 
 
+    {category: "Catatonie", name: "Catatonie : Critères diagnostiques", form: "F_CATATONIE"},
+    {category: "Catatonie", name: "Échelle de Bush-Francis (BFCRS)", form: "F_BFCRS"},
 
 
-    {category: "Catatonie", name: "Catatonie : Critères diagnostiques", form: "F_CATATONIE", keys: ["score"]},
-    {category: "Catatonie", name: "Échelle de Bush-Francis (BFCRS)", form: "F_BFCRS", keys: ["score"]},
+    {category: "ESPPER", name: "MADRS", form: "F_MADRS"},
+    {category: "ESPPER", name: "Historique des traitements", form: "F_Chimiogramme"},
+    {category: "ESPPER", name: "État de stress post-traumatique (PCLS)", form: "F_PCLS"},
+    {category: "ESPPER", name: "Évaluation de la dépression psychotique (PDAS)", form: "F_PDAS"},
+    {category: "ESPPER", name: "Évaluation globale du fonctionnement (EGF)", form: "F_EGF"},
+    {category: "ESPPER", name: "Echelle de Calgary (CDS)", form: "F_CDSS"},
+    {category: "ESPPER", name: "Echelle abrégée d'évaluation psychiatrique (BPRS)", form: "BPRS"},
+    {category: "ESPPER", name: "Questionnaire de Altman (ASRM)", form: "F_ALTMAN"},
 
 
-    {category: "ESPPER", name: "MADRS", form: "F_MADRS", keys: ["score"]},
-    {category: "ESPPER", name: "Historique des traitements", form: "F_Chimiogramme", keys: ["score"]},
-    {category: "ESPPER", name: "État de stress post-traumatique (PCLS)", form: "F_PCLS", keys: ["score"]},
-    {category: "ESPPER", name: "Évaluation de la dépression psychotique (PDAS)", form: "F_PDAS", keys: ["score"]},
-    {category: "ESPPER", name: "Évaluation globale du fonctionnement (EGF)", form: "F_EGF", keys: ["score"]},
-    {category: "ESPPER", name: "Echelle de Calgary (CDS)", form: "F_CDSS", keys: ["score"]},
-    {category: "ESPPER", name: "Echelle abrégée d'évaluation psychiatrique (BPRS)", form: "BPRS", keys: ["score"]},
-    {category: "ESPPER", name: "Questionnaire de Altman (ASRM)", form: "F_ALTMAN", keys: ["score"]},
+    {category: "Personnalité", name: "Echelle SAPAS (Standardised Assessment of Personality – Abbreviated Scale) REVOIR SCORE", form: "SAPAS"},
 
+    {category: "Fonctionnement", name: "Échelle brève d'évaluation du fonctionnement du patient (FAST)", form: "FAST"},
+    {category: "Fonctionnement", name: "Évaluation globale du fonctionnement (EGF)", form: "F_EGF"},
 
+    {category: "Neuropsy", name: "MOCA", form: "F_MOCA"},
+    {category: "Neuropsy", name: "Barnes Akathisia Rating Scale", form: "F_BARS"},
+    {category: "Neuropsy", name: "Historique des traitements", form: "F_Chimiogramme_neuropsy"},
 
-
-
-    {category: "Personnalité", name: "Echelle SAPAS (Standardised Assessment of Personality – Abbreviated Scale) REVOIR SCORE", form: "SAPAS", keys: ["score"]},
-
-    {category: "Fonctionnement", name: "Échelle brève d'évaluation du fonctionnement du patient (FAST)", form: "FAST", keys: ["score"]},
-    {category: "Fonctionnement", name: "Évaluation globale du fonctionnement (EGF)", form: "F_EGF", keys: ["score"]},
-
-    {category: "Neuropsy", name: "MOCA", form: "F_MOCA",
-        keys: ["score"]},
-    {category: "Neuropsy", name: "Barnes Akathisia Rating Scale", form: "F_BARS",
-        keys: ["score"]},
-    {category: "Neuropsy", name: "Historique des traitements", form: "F_Chimiogramme_neuropsy", keys: ["score"]},
-
- {category: "CNEP/Troubles somatoformes", name: "PQD4", form: "F_PDQ4", keys: ["score"]},
- {category: "CNEP/Troubles somatoformes", name: "Chilhood Trauma Questionnaire (CTQ)", form: "F_CTQ",keys: ["physicalAbuse", "emotionalNeglect", "physicalNeglect", "sexualAbuse", "emotionalAbuse", "score"]},
- {category: "CNEP/Troubles somatoformes", name: "État de stress post-traumatique (PCLS)", form: "F_PCLS", keys: ["score"]},
+    {category: "CNEP/Troubles somatoformes", name: "PQD4", form: "F_PDQ4"},
+    {category: "CNEP/Troubles somatoformes", name: "Chilhood Trauma Questionnaire (CTQ)", form: "F_CTQ"},
+    {category: "CNEP/Troubles somatoformes", name: "État de stress post-traumatique (PCLS)", form: "F_PCLS"},
 ]
-
-
 
 // Déclaration des pages
 
-app.form("Accueil", null, {actions: false})
-app.form("Aide", null, {actions: false})
-app.form("Formulaires", null, {actions: false})
-app.form("Suivi", null, {actions: false})
+app.pushOptions({
+    default_actions: false,
+    float_actions: false
+})
+
+app.form("Accueil", form => {
+    form.page("Accueil", "Patients")
+    form.page("Exports", "Données")
+})
+app.form("Patient", form => {
+    form.idHandler = () => route.ctx || util.makeULID();
+
+    form.page("Informations")
+    form.page("Suivi")
+    form.page("Formulaires", "Échelles")
+    form.page("Courriers")
+})
 
 {
     let handled_set = new Set;
@@ -69,7 +70,7 @@ app.form("Suivi", null, {actions: false})
         if (handled_set.has(echelle.form))
             continue;
 
-        app.form(echelle.form, echelle.name, {actions: false})
+        app.form(echelle.form, echelle.name)
         handled_set.add(echelle.form)
     }
 }
@@ -77,21 +78,21 @@ app.form("Suivi", null, {actions: false})
 // Templates
 
 shared.makeHeader = function(title, page) {
-    page.output(html`
-        <a href=${env.base_url}><img src="${env.base_url}favicon.png" height="48" style="float: right;"></a>
-        <h1>${title}</h1><br/>
-    `)
+    if (!goupile.isLocked()) {
+        page.output(html`
+            <a href=${env.base_url}><img src="${env.base_url}favicon.png" height="48"
+                                         style="position: absolute; top: 12px; right: 12px; z-index: 99;"></a>
+        `)
+    }
 }
 
 shared.makeFormFooter = function(nav, page) {
-    if (!goupile.isLocked()) {
-        page.output(html`
-            <br/><br/>
-            <button class="md_button" ?disabled=${!page.isValid()}
-                    @click=${async e => {await page.submit(); nav.new();}}>Enregistrer</button>
-            <button class="md_button" @click=${e => go("Formulaires")}>Formulaires</button>
-            <button class="md_button" @click=${e => go("Suivi")}>Suivi Patient / Graphique</button>
-            <button class="md_button" @click=${e => go("Accueil")}>Retour à l'accueil</button>
-        `)
-    }
+    page.output(html`
+        <br/>
+        <button class="md_button" ?disabled=${!page.hasChanged() || !page.isValid()}
+                @click=${page.submit}>Enregistrer</button>
+        ${!goupile.isLocked() ?
+            html`<button class="md_button"
+                         @click=${e => go(nav.link("Patient/Suivi", {id: route.ctx}))}>Retourner au patient</button>` : ''}
+    `)
 }

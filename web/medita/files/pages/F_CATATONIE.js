@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Catatonie", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.pushOptions({mandatory: false, missing_mode: 'disable'})
 

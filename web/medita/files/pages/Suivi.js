@@ -1,37 +1,13 @@
 shared.makeHeader("Suivi d'échelles", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true, readonly: true}).value
 
 page.pushOptions({compact: true})
 
-let id = form.find("id");
-
-// Sélecteur d'échelles
-{
-    let tsel = new TreeSelector;
-
-    tsel.clickHandler = (e, values) => {
-        scratch.echelles = values;
-        page.changeHandler(page);
-    };
-    tsel.setPrefix('Échelles : ');
-
-    for (let i = 0; i < shared.echelles.length; i++) {
-        let echelle = shared.echelles[i];
-        tsel.addOption([echelle.category, echelle.name], echelle.form,
-                       {selected: !scratch.echelles || scratch.echelles.has(echelle.form)});
-    }
-
-    page.output(tsel.render());
-}
-
-// Sous-échelles ?
-let sub = page.boolean('sub', 'Afficher les sous-scores ?', {untoggle: false, value: false});
-
 // Graphique et tableaux
-if (id.value) {
-    let forms = new Set(scratch.echelles || shared.echelles.map(echelle => echelle.form));
-    let echelles = shared.echelles.filter(echelle => forms.delete(echelle.form));
-
+if (values.id) {
+    let select = new Set(shared.echelles.map(echelle => echelle.form));
+    let echelles = shared.echelles.filter(echelle => select.delete(echelle.form));
+    
     let p = Promise.all([
         window.Chart || net.loadScript(`${env.base_url}files/resources/chart.bundle.min.js`),
         ...echelles.map(echelle => vrec.loadAll(echelle.form))
@@ -45,14 +21,26 @@ if (id.value) {
     p.then(tables => {
         // Remove parasite script thingy
         tables.shift();
-        tables = tables.map(table => table.filter(record => record.values.id == id.value));
+        tables = tables.map(table => table.filter(record => record.values.id == values.id));
 
-        updateChart(echelles, tables);
+        if (scratch.echelles == null) {
+            scratch.echelles = new Set;
+
+            for (let i = 0; i < echelles.length; i++) {
+                let echelle = echelles[i];
+                let records = tables[i];
+
+                if (records.length >= 2)
+                    scratch.echelles.add(echelle.form);
+            }
+        }
+
+        updateChart(echelles, tables, scratch.echelles);
         updateTables(echelles, tables);
     });
 }
 
-function updateChart(echelles, tables) {
+function updateChart(echelles, tables, show_set) {
     let canvas = scratch.canvas;
     let chart = scratch.chart;
 
@@ -99,32 +87,32 @@ function updateChart(echelles, tables) {
 
     for (let i = 0; i < echelles.length; i++) {
         let echelle = echelles[i];
-        let keys = echelle.keys;
         let records = tables[i];
+        
+        if (!show_set.has(echelle.form))
+            continue;
 
         if (records.length) {
-            for (let j = 0; j < (sub.value ? keys.length : 1); j++) {
-                let dataset = {
-                    label: keys[j] === 'score' ? echelle.name : `${echelle.name} [${keys[j]}]`,
-                    borderColor: colors[i % colors.length],
-                    fill: false,
-                    lineTension: 0.1,
-                    borderDash: j ? [5, 15] : [],
-                    pointBorderColor: [],
-                    pointBackgroundColor:[],
-                    data: []
-                };
-                chart.data.datasets.push(dataset);
+            let dataset = {
+                label: echelle.name,
+                borderColor: colors[i % colors.length],
+                fill: false,
+                lineTension: 0.1,
+                borderDash: [],
+                pointBorderColor: [],
+                pointBackgroundColor:[],
+                data: []
+            };
+            chart.data.datasets.push(dataset);
 
-                for (let record of records) {
-                    dataset.pointBorderColor.push(colors[i % colors.length]);
-                    dataset.pointBackgroundColor.push(colors[i % colors.length]);
+            for (let record of records) {
+                dataset.pointBorderColor.push(colors[i % colors.length]);
+                dataset.pointBackgroundColor.push(colors[i % colors.length]);
 
-                    dataset.data.push({
-                        x: new Date(util.decodeULIDTime(record.id)),
-                        y: record.values[keys[j]]
-                    });
-                }
+                dataset.data.push({
+                    x: new Date(util.decodeULIDTime(record.id)),
+                    y: record.values.score
+                });
             }
         }
     }
@@ -138,34 +126,42 @@ function updateTables(echelles, tables) {
 
     render(echelles.map((echelle, idx) => {
         let records = tables[idx];
-        let keys = echelle.keys;
 
         if (records.length) {
             return html`
                 <fieldset class="af_container af_section">
                     <legend>${echelle.name}</legend>
-                    <table style="width: 100%; table-layout: fixed;">
+                            
+                    <table class="md_table">
                         <thead>
                             <tr>
-                                <th style="text-align: left;">Date</th>
-                                ${keys.map(key => html`<th style="text-align: left;">${key}</th>`)}
+                                <th>Date</th>
+                                <th>Score</th>
                                 <th style="width: 200px;"></th>
                             </tr>
                         </thead>
                         <tbody>${records.map(record => {
                             let date = new Date(util.decodeULIDTime(record.id));
-                            let values = keys.map(key => record.values[key]);
 
                             return html`<tr>
                                 <td>${date.toLocaleString()}</td>
-                                ${values.map(value => html`<td>${value}</td>`)}
+                                <td>${record.values.score}</td>
                                 <td style="text-align: right;">
-                                    <a href=${nav.link(echelle.form, null, record)}>Modifier</a> |
+                                    <a href=${nav.link(`${echelle.form}/${echelle.form}`, {id: record.id})}>Modifier</a>&nbsp;&nbsp;&nbsp;
                                     <a @click=${e => showDeleteDialog(e, echelle.form, record.id)}>Supprimer</a>
                                 </td>
                             </tr>`;
                         })}</tbody>
                     </table>
+
+                    <div style="margin-top: 1em; width: 100%;" class="af_multi">
+                        <input id=${'chart' + echelle.form} type="checkbox" .checked=${scratch.echelles.has(echelle.form)}
+                               @click=${e => toggleChartScore(echelle.form)} />
+                        <label for=${'chart' + echelle.form}>Afficher sur le graphique</label>
+
+                        <a style="display: block; float: right;"
+                           href=${nav.link(`${echelle.form}/${echelle.form}`)}>Ajouter une mesure</a>
+                    </div>
                 </fieldset>
             `;
         } else {
@@ -174,12 +170,19 @@ function updateTables(echelles, tables) {
     }), div);
 }
 
+function toggleChartScore(form) {
+    if (!scratch.echelles.delete(form))
+        scratch.echelles.add(form);
+
+    page.changeHandler(page);
+}
+
 function showDeleteDialog(e, form, id) {
-    goupile.popup(e, 'Supprimer', popup => {
+    goupile.popup(e, 'Supprimer', (popup, close) => {
         popup.output('Voulez-vous vraiment supprimer cet enregistrement ?');
 
         popup.submitHandler = async () => {
-            popup.close();
+            close();
 
             await vrec.delete(form, id);
             page.restart();
@@ -189,6 +192,5 @@ function showDeleteDialog(e, form, id) {
 
 form.output(html`
     <br/>
-    <button class="md_button" @click=${e => go("Formulaires")}>Formulaires</button>
     <button class="md_button" @click=${e => go("Accueil")}>Retour à l'accueil</button>
 `)

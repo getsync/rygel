@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Echelle de Calgary CDSS", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
 	<p>Poser la première question telle qu'elle est écrite. Par la suite, vous pouvez utiliser d'autres questions d'exploration ou d'autres questions pertinentes à votre discrétion.

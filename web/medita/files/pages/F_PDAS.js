@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Echelle d’évaluation de la dépression psychotique (PDAS)", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
     <p><b>Pour les instructions concernant l’entretien, veuillez vous reporter au guide associé.</p>

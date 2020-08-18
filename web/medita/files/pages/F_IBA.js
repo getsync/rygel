@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Inventaire de Beck pour l'anxiété", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
     <p>Voici une liste de symptômes courants dus à l’anxiété. Veuillez lire chaque symptôme attentivement. Indiquez, en encerclant le chiffre approprié, à quel degré vous avez été affecté par chacun de ces symptômes au cours de la dernière semaine, aujourd’hui inclus.</p>

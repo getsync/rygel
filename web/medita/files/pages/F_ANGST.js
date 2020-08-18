@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("AUTO-QUESTIONNAIRE DE ANGST", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
     <p>Cocher les cases vrai/faux en pensant aux derniers épisodes durant lesquels vous vous êtes senti "bien dans votre peau", heureux, agité ou irritable.

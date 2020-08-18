@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("Echelle SAPAS (Standardised Assessment of Personality – Abbreviated Scale)", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 form.output(html`
     <p>Cochez Oui (ou Non pour la question 3) si le patient pense que la description s’applique la plupart du temps et dans la plupart des situation.</p>

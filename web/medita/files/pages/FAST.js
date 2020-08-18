@@ -1,7 +1,7 @@
 if (shared.makeHeader)
     shared.makeHeader("échelle brève d'évaluation du fonctionnement du patient (FAST)", page)
-route.id = page.text("id", "Patient", {value: route.id, mandatory: true, compact: true,
-                                       hidden: goupile.isLocked()}).value
+route.ctx = page.text("id", "Identifiant", {value: route.ctx, compact: true,
+                                            readonly: true, hidden: goupile.isLocked()}).value
 
 let cotation = [[0, "Aucune difficulté"], [1, "Difficulté légère"],[2, "Difficulté modérée"],[3, "Difficulté sévère"]]
 
