@@ -307,11 +307,11 @@ let form_exec = new function() {
 
         entry.progress('Enregistrement en cours');
         try {
-            let record2 = await vrec.save(record, model.key, model.variables);
+            let record2 = await vrec.save(record.table, record.id, model.key, model.variables);
             entry.success('Données enregistrées');
 
-            if (ctx_records.has(record2.id))
-                ctx_records.set(record2.id, record2);
+            if (ctx_records.has(record.id))
+                ctx_records.set(record.id, record2);
 
             return true;
         } catch (err) {

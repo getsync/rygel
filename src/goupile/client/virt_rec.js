@@ -24,12 +24,12 @@ function VirtualRecords(db) {
         return record;
     };
 
-    this.save = async function(record, page, variables) {
+    this.save = async function(table, id, page, variables) {
         let frag = {
             _ikey: null,
 
-            table: record.table,
-            id: record.id,
+            table: table,
+            id: id,
             version: 0,
             page: page,
 
@@ -40,14 +40,14 @@ function VirtualRecords(db) {
             values: {}
         };
         for (let variable of variables)
-            frag.values[variable.key] = !variable.missing ? record.values[variable.key] : null;
+            frag.values[variable.key] = !variable.missing ? variable.value : null;
 
         let columns = variables.flatMap((variable, idx) => {
             if (variable.multi) {
                 let ret = variable.props.map(prop => ({
-                    key: makeColumnKeyMulti(record.table, page, variable.key, prop.value),
+                    key: makeColumnKeyMulti(table, page, variable.key, prop.value),
 
-                    table: record.table,
+                    table: table,
                     page: page,
                     variable: variable.key.toString(),
                     type: variable.type,
@@ -60,9 +60,9 @@ function VirtualRecords(db) {
                 return ret;
             } else {
                 let ret = {
-                    key: makeColumnKey(record.table, page, variable.key),
+                    key: makeColumnKey(table, page, variable.key),
 
-                    table: record.table,
+                    table: table,
                     page: page,
                     variable: variable.key.toString(),
                     type: variable.type,
@@ -81,51 +81,36 @@ function VirtualRecords(db) {
             col.after = i < (columns.length - 1) ? columns[i + 1].key : null;
         }
 
+        let record;
         await db.transaction('rw', ['rec_entries', 'rec_fragments', 'rec_columns'], async () => {
-            let ikey = makeEntryKey(record.table, record.id);
+            let ikey = makeEntryKey(table, id);
             let entry = await db.load('rec_entries', ikey);
 
-            if (entry) {
-                if (entry.version !== record.version) {
-                    console.log(entry, record);
-                    throw new Error(`Cannot save old version of record ${record.id}`);
-                }
-            } else {
+            if (!entry) {
                 entry = {
                     _ikey: ikey,
 
-                    table: record.table,
-                    id: record.id,
+                    table: table,
+                    id: id,
 
                     pages: [],
-                    version: record.version || -1
+                    version: -1
                 };
             }
 
             entry.pages = entry.pages.filter(key => key !== page);
             entry.pages.push(page);
             frag.version = ++entry.version;
-            frag._ikey = makeFragmentKey(record.table, record.id, frag.version);
+            frag._ikey = makeFragmentKey(table, id, frag.version);
 
             db.save('rec_entries', entry);
             db.save('rec_fragments', frag);
             db.saveAll('rec_columns', columns);
+
+            record = await self.load(table, id);
         });
 
-        let record2 = Object.assign({}, record);
-        record2.versions = record.versions.slice();
-        record2.versions.push({
-            version: frag.version,
-            username: frag.username,
-            mtime: frag.mtime
-        });
-        record2.version = frag.version;
-        record2.mtime = frag.mtime;
-        record2.complete = Object.assign({}, record.complete);
-        record2.complete[page] = false;
-        record2.values = Object.assign({}, record.values);
-
-        return record2;
+        return record;
     };
 
     this.delete = async function(table, id) {
