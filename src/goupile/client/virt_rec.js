@@ -5,8 +5,7 @@
 function VirtualRecords(db) {
     let self = this;
 
-    this.create = function(table) {
-        let id = util.makeULID();
+    this.create = function(table, id) {
         let record = {
             _ikey: makeEntryKey(table, id),
 

@@ -56,6 +56,8 @@ function ApplicationBuilder(app) {
             key: key,
             url: `${env.base_url}app/${key}/`,
 
+            idHandler: null,
+
             pages: [],
             links: []
         };
@@ -69,6 +71,7 @@ function ApplicationBuilder(app) {
         } else {
             form_builder.page(key, func);
         }
+        form.idHandler = form_builder.idHandler;
 
         app.forms.push(form);
         forms_map[key] = form;
@@ -177,6 +180,8 @@ function FormBuilder(form, expand_func = options => options) {
     let self = this;
 
     let used_keys = new Set;
+
+    this.idHandler = util.makeULID;
 
     this.page = function(key, label = undefined, options = {}) {
         if (!key)

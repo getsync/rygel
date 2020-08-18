@@ -17,8 +17,6 @@ let form_exec = new function() {
     this.route = async function(page, url) {
         let what = url.pathname.substr(page.url.length) || null;
 
-        if (what && !what.match(/^(new|multi|[A-Z0-9]{26}(@[0-9]+)?)$/))
-            throw new Error(`Adresse incorrecte '${url.pathname}'`);
         route_page = page;
 
         // Clear inappropriate records (wrong form)
@@ -36,14 +34,14 @@ let form_exec = new function() {
             let record = ctx_records.first();
 
             if (!record || record.mtime != null)
-                record = vrec.create(route_page.form.key);
+                record = vrec.create(route_page.form.key, route_page.form.idHandler());
 
             ctx_records.clear();
             ctx_records.set(record.id, record);
 
             multi_mode = false;
         } else if (what == null) {
-            let record = vrec.create(route_page.form.key);
+            let record = vrec.create(route_page.form.key, route_page.form.idHandler());
 
             ctx_records.clear();
             ctx_records.set(record.id, record);
@@ -77,7 +75,7 @@ let form_exec = new function() {
                                   `Version chargée : @${record.version}`);
                 } else {
                     log.error(`La fiche ${id} n'existe pas`);
-                    record = vrec.create(route_page.form.key);
+                    record = vrec.create(route_page.form.key, route_page.form.idHandler());
                 }
 
                 delete ctx_states[id];
@@ -119,7 +117,7 @@ let form_exec = new function() {
             }
         } else {
             if (!ctx_records.size) {
-                let record = vrec.create(route_page.form.key);
+                let record = vrec.create(route_page.form.key, route_page.form.idHandler());
                 ctx_records.set(record.id, record);
             }
 
@@ -761,7 +759,7 @@ let form_exec = new function() {
             ctx_records.delete(record.id);
 
             if (!multi_mode && !ctx_records.size) {
-                let record = vrec.create(route_page.form.key);
+                let record = vrec.create(route_page.form.key, route_page.form.idHandler());
                 ctx_records.set(record.id, record);
             }
         }
