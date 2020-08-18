@@ -273,12 +273,30 @@ function UserManager(db) {
     this.getUserName = function() { return profile.username; };
     this.hasPermission = function(perm) { return profile.permissions && !!profile.permissions[perm]; };
 
-    this.getLockURL = function() {
-        let url = localStorage.getItem('lock_url');
-        return url;
+    // XXX: Move locking system to ApplicationNavigator eventually, and expose a "secure"
+    // transient offline storage from this class.
+    this.isLocked = function() {
+        let pin = localStorage.getItem('lock_pin');
+        return pin != null;
+    };
+    this.getLock = function() {
+        let urls = localStorage.getItem('lock_urls');
+        let route = localStorage.getItem('lock_route');
+
+        if (urls != null) {
+            urls = JSON.parse(urls);
+            route = JSON.parse(route);
+
+            return {
+                urls: urls,
+                route: route
+            };
+        } else {
+            return null;
+        }
     };
 
-    this.showLockDialog = function(e, url) {
+    this.showLockDialog = function(e, urls, route) {
         goupile.popup(e, 'Verrouiller', (page, close) => {
             page.output('Entrez le code de verrouillage');
             let pin = page.pin('*code');
@@ -289,7 +307,8 @@ function UserManager(db) {
             page.submitHandler = () => {
                 close();
 
-                localStorage.setItem('lock_url', url);
+                localStorage.setItem('lock_urls', JSON.stringify(urls));
+                localStorage.setItem('lock_route', JSON.stringify(route));
                 localStorage.setItem('lock_pin', pin.value);
 
                 log.success('Application verrouillée !');
@@ -321,7 +340,8 @@ function UserManager(db) {
     };
 
     function deleteLock() {
-        localStorage.removeItem('lock_url');
+        localStorage.removeItem('lock_urls');
+        localStorage.removeItem('lock_route');
         localStorage.removeItem('lock_pin');
     }
 };

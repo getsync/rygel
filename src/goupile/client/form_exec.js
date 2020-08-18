@@ -204,6 +204,10 @@ let form_exec = new function() {
             builder.action('Fermer', {disabled: !state.changed && record.mtime == null}, e => handleNewClick(e, state.changed));
         }
 
+
+        let lock = user.getLock();
+        let pages = lock ? lock.urls.map(url => app.urls_map[url].page) : route_page.form.pages;
+
         render(html`
             <div class="fm_form">
                 ${route_page.options.show_id ? html`
@@ -221,7 +225,7 @@ let form_exec = new function() {
                     </div>
                 ` : ''}
 
-                <div class="fm_path">${route_page.form.pages.map(page2 => {
+                <div class="fm_path">${pages.map(page2 => {
                     let complete = record.complete[page2.key];
 
                     let cls = '';
@@ -235,7 +239,7 @@ let form_exec = new function() {
                         cls += ' partial';
                     }
 
-                    return html`<a class=${cls} href=${makeURL(route_page.form.key, page2.key, record)}>${page2.label}</a>`;
+                    return html`<a class=${cls} href=${makeURL(page2.form.key, page2.key, record)}>${page2.label}</a>`;
                 })}</div>
 
                 <div class="af_main">${model.renderWidgets()}</div>
